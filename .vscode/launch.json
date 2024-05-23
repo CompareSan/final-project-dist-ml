@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Metaflow Debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/final_project_dist_ml/train_flow.py",
+            "args": [
+                "METAFLOW_PROFILE=local",
+                "python",
+                "${workspaceFolder}/train_flow.py",
+                "--environment=pypi",
+                "run"
+            ],
+            "env": {
+                "USERNAME": "filippobuoncompagni"
+            },
+            "subProcess": true,
+            "console": "integratedTerminal"
+        }
+    ]
+}

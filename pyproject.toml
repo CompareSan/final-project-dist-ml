@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "final-project-dist-ml"
+version = "0.1.0"
+description = ""
+authors = ["Filippo Buoncompagni <filippo.buoncompagni@multiversecomputing.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.3.0"
+metaflow = "^2.11.16"
+torchvision = "^0.18.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.5"
+pre-commit = "^3.7.1"
+mypy = "^1.10.0"
+isort = "^5.13.2"
+
+[tool.ruff]
+fix = true
+indent-width = 4
+line-length = 100
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
