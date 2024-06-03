@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from torchinfo import summary
 
 
 class CNNModel(nn.Module):
@@ -22,8 +21,3 @@ class CNNModel(nn.Module):
         x = nn.functional.relu(self.fc1(x))
         x = self.fc2(x)
         return x
-
-
-if __name__ == "__main__":
-    model = CNNModel()
-    stats = summary(model, input_size=(1, 1, 28, 28))

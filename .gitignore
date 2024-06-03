@@ -1,2 +1,5 @@
 *cache*
 *.metaflow*
+*mlruns*
+*db*
+*mlartifacts*

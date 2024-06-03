@@ -1,0 +1,20 @@
+FROM python:3.10.9-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
+WORKDIR /project
+
+# Copy only the requirements file to optimize rebuilding the Docker image
+COPY pyproject.toml poetry.lock Makefile /project/
+
+# Install Poetry
+RUN pip install --no-cache-dir poetry
+
+# Install project dependencies
+RUN poetry config virtualenvs.create false \
+  && poetry install --no-interaction --no-ansi --extras "frontend"
+
+COPY frontend /project/frontend

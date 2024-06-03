@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    environment:
+      - MLFLOW_TRACKING_URI=http://host.docker.internal:5000
+    image: fil404/mlops-zoomcamp-model-serving-image-backend:latest
+    container_name: model_serving_backend
+    ports:
+      - "8000:8000"
+    command: make backend
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    environment:
+      - API_URL=http://backend:8000/predict
+    image: fil404/mlops-zoomcamp-model-serving-image-frontend:latest
+    container_name: model_serving_frontend
+    ports:
+      - "8501:8501"
+    command: make frontend

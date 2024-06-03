@@ -1,0 +1,35 @@
+{
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.pytestEnabled": true,
+    "mypy-type-checker.args": [
+        "--no-strict-optional",
+        "--ignore-missing-imports",
+    ],
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "ruff.lint.args": ["--config=${workspaceFolder}/pyproject.toml"],
+    "ruff.format.args": ["--config=${workspaceFolder}/pyproject.toml"],
+
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.indexing": true,
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": true,
+    "editor.rulers": [
+        {
+            "column": 99,
+            "color": "#FFFFFF"
+        },
+        {
+            "column": 119,
+            "color": "#FFFF00"
+        }
+    ],
+}

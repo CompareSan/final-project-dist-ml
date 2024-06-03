@@ -10,13 +10,25 @@ python = "^3.10"
 torch = "^2.3.0"
 metaflow = "^2.11.16"
 torchvision = "^0.18.0"
-
+torchinfo = "^1.8.0"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.0"
+pydantic = "^2.7.2"
+streamlit = "^1.35.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.5"
 pre-commit = "^3.7.1"
 mypy = "^1.10.0"
 isort = "^5.13.2"
+mlflow = "^2.13.0"
+pytest = "^8.2.1"
+pytest-xdist = "^3.6.1"
+pytest-clarity = "^1.0.1"
+
+[tool.poetry.extras]
+backend = ["torch", "torchvision", "uvicorn", "fastapi", "mlflow"]
+frontend = ["streamlit"]
 
 [tool.ruff]
 fix = true
