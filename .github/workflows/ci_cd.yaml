@@ -1,0 +1,35 @@
+name: CI/CD
+
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  quality_check:
+    name: Pre-commit
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.9"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: false
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+          cache-dependency-path: poetry.lock
+      - name: Install project and dependencies
+        run: poetry install --only dev --sync
+      - name: Analysing the code with pre-commit
+        run: |
+          make pre-commit
