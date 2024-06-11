@@ -15,16 +15,16 @@ logging.basicConfig(
 rand = random.Random()
 
 reference_data = pd.read_parquet("../data/train_df.parquet")
-production_data = pd.read_parquet("./predictions.parquet") # Find a way to not load the all historic dataset
+production_data = pd.read_parquet(
+    "./predictions.parquet"
+)  # Find a way to not load the all historic dataset
 
 now = datetime.now()
 one_day_ago = now - timedelta(days=1)
-production_data_last_day = production_data[production_data['timestamp'] > one_day_ago]
+production_data_last_day = production_data[production_data["timestamp"] > one_day_ago]
 
 numerical_features = reference_data.columns.to_list()
-column_mapping = ColumnMapping(
-    target="target", numerical_features=numerical_features
-)
+column_mapping = ColumnMapping(target="target", numerical_features=numerical_features)
 
 report = Report(
     metrics=[
@@ -45,7 +45,9 @@ def prep_db():
             cur.execute("CREATE DATABASE test;")
     conn.close()
 
-    with psycopg2.connect("host=localhost port=5432 dbname=test user=postgres password=password") as conn:
+    with psycopg2.connect(
+        "host=localhost port=5432 dbname=test user=postgres password=password"
+    ) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS evidently_metrics (
@@ -62,7 +64,9 @@ def calculate_evidently_metrics():
     now = datetime.now()
 
     report.run(
-        reference_data=reference_data, current_data=production_data_last_day, column_mapping=column_mapping
+        reference_data=reference_data,
+        current_data=production_data_last_day,
+        column_mapping=column_mapping,
     )
 
     result = report.as_dict()
@@ -72,7 +76,6 @@ def calculate_evidently_metrics():
     share_missing_values = result["metrics"][2]["result"]["current"]["share_of_missing_values"]
 
     return now, prediction_drift, num_drifted_columns, share_missing_values
-
 
 
 def insert_evidently_metrics(
@@ -99,4 +102,3 @@ def batch_monitoring():
 
 if __name__ == "__main__":
     batch_monitoring()
-
