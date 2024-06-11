@@ -53,7 +53,7 @@ jobs:
           cache: poetry
           cache-dependency-path: poetry.lock
       - name: Install project and dependencies
-        run: poetry install --only dev --sync
+        run: poetry install --sync
       - name: Run unit tests
         run: |
           make test
