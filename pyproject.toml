@@ -8,13 +8,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 torch = "^2.3.0"
-metaflow = "^2.11.16"
+metaflow = "^2.12.0"
 torchvision = "^0.18.0"
 torchinfo = "^1.8.0"
 fastapi = "^0.111.0"
 uvicorn = "^0.30.0"
 pydantic = "^2.7.2"
 streamlit = "^1.35.0"
+evidently = "^0.4.25"
+psycopg = "^3.1.19"
+psycopg2-binary = "^2.9.9"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.5"
@@ -25,6 +28,8 @@ mlflow = "^2.13.0"
 pytest = "^8.2.1"
 pytest-xdist = "^3.6.1"
 pytest-clarity = "^1.0.1"
+ipykernel = "^6.29.4"
+types-requests = "^2.32.0.20240602"
 
 [tool.poetry.extras]
 backend = ["torch", "torchvision", "uvicorn", "fastapi", "mlflow"]
@@ -34,6 +39,8 @@ frontend = ["streamlit"]
 fix = true
 indent-width = 4
 line-length = 100
+
+
 
 
 [build-system]

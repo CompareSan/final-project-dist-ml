@@ -1,4 +1,4 @@
-from get_data import load_and_transform_data
+from get_data import get_data_loaders
 from get_model import CNNModel
 from metaflow import FlowSpec, pypi_base, step
 from trainer import Trainer
@@ -23,7 +23,7 @@ class TrainFlow(FlowSpec):
     def data_processing(self):
         print("Loading and processing data")
         self.batch_size = 32
-        self.trainloader, self.testloader = load_and_transform_data(self.batch_size)
+        self.trainloader, self.testloader = get_data_loaders(self.batch_size)
         self.next(self.train)
 
     @step

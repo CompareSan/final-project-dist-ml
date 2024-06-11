@@ -1,5 +1,12 @@
 version: '3'
 
+volumes:
+  grafana_data: {}
+
+networks:
+  front-tier:
+  back-tier:
+
 services:
   backend:
     build:
@@ -11,7 +18,12 @@ services:
     container_name: model_serving_backend
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/project/backend
     command: make backend
+    networks:
+      - back-tier
+      - front-tier
 
 
   frontend:
@@ -25,3 +37,40 @@ services:
     ports:
       - "8501:8501"
     command: make frontend
+    networks:
+      - back-tier
+      - front-tier
+
+
+  db:
+    image: postgres:13
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - back-tier
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - back-tier
+      - front-tier
+
+  grafana:
+    image: grafana/grafana
+    restart: always
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
+    networks:
+      - back-tier
+      - front-tier

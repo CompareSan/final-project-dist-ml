@@ -1,12 +1,13 @@
 import os
 from io import BytesIO
-
+from datetime import datetime
 import mlflow
 import torch
 import torchvision.transforms as transforms
 import uvicorn
 from fastapi import FastAPI, File
 from PIL import Image
+import pandas as pd
 
 app = FastAPI()
 
@@ -56,7 +57,25 @@ def predict(file: bytes = File(...)) -> str:
     with torch.no_grad():
         output = model(tensor_image)
         _, predicted = torch.max(output.data, 1)
-    return f"prediction: {label_classes[int(predicted.item())]}"
+    prediction = f"prediction: {label_classes[int(predicted.item())]}"
+
+    flattened_image = tensor_image.view(-1).tolist()
+
+    new_data = pd.DataFrame(
+        [flattened_image], columns=[f"pixel_{i}" for i in range(len(flattened_image))]
+    )
+    new_data["target"] = int(predicted.item())
+    new_data["timestamp"] = datetime.now()
+
+    if os.path.isfile("predictions.parquet"):
+        df = pd.read_parquet("predictions.parquet")
+        df = pd.concat([df, new_data])
+    else:
+        df = new_data
+
+    df.to_parquet("predictions.parquet", index=False)
+
+    return prediction
 
 
 if __name__ == "__main__":

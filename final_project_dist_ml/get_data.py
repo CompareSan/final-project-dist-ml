@@ -1,12 +1,16 @@
+from typing import Tuple
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
-from typing import Tuple
 
 
-def load_and_transform_data(
-    batch_size: int,
-) -> Tuple[torch.utils.data.DataLoader, torch.utils.data.DataLoader]:
+def load_and_transform_data() -> (
+    Tuple[
+        torchvision.datasets.mnist.FashionMNIST,
+        torchvision.datasets.mnist.FashionMNIST,
+    ]
+):
     transform = transforms.Compose(
         [
             transforms.ToTensor(),
@@ -28,6 +32,16 @@ def load_and_transform_data(
         transform=transform,
     )
 
+    return trainset, testset
+
+
+def get_data_loaders(
+    batch_size: int,
+) -> Tuple[
+    torch.utils.data.DataLoader,
+    torch.utils.data.DataLoader,
+]:
+    trainset, testset = load_and_transform_data()
     trainloader = torch.utils.data.DataLoader(
         trainset,
         batch_size=batch_size,
@@ -47,4 +61,4 @@ def load_and_transform_data(
 
 if __name__ == "__main__":
     batch_size = 64
-    load_and_transform_data(batch_size)
+    get_data_loaders(batch_size)
